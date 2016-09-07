@@ -72,7 +72,7 @@ int shape()
   variable Q80("Q80","Q80",20,-2,1,"Q80 [GeV]");
   variable JetLepMass("JetLepMass","JetLepMass",20,0,250,"M_{Jet+Lep}");
   variable JetHBPt("JetHBpt","JetHBpt",20,0,200,"p_{T} (JetHB)");
-
+  variable nGoodTrack("nGoodTrack","nGoodTrack",11,-0.5,10.5,"nGoodTrack");
 
 //  vvariable.push_back(LepPt);
 //  vvariable.push_back(LepEta);
@@ -80,19 +80,20 @@ int shape()
 //  vvariable.push_back(Jet1Pt);
 //  vvariable.push_back(Jet2Pt);
 //  vvariable.push_back(Jet1Eta);
-  vvariable.push_back(Met);
-  vvariable.push_back(CosDPhi);
+//  vvariable.push_back(Met);
+//  vvariable.push_back(CosDPhi);
 //  vvariable.push_back(DrJet1Lep);
 //  vvariable.push_back(DrJet2Lep);
-  vvariable.push_back(mt);
+//  vvariable.push_back(mt);
 //  vvariable.push_back(HT20);
-  vvariable.push_back(Q80);
+//  vvariable.push_back(Q80);
 //  vvariable.push_back(HT30);
 //  vvariable.push_back(JetLepMass);
 //  vvariable.push_back(JetHBPt);
-
+  vvariable.push_back(nGoodTrack);
+  
   // Open input file(s)
-  string basedirectory = "/lstore/cms/cbeiraod/Stop4Body/LepFix/";
+  string basedirectory = "/lstore/cms/cbeiraod/Stop4Body/AllDouble/";
 
   TFile* ttbarFile = new TFile((basedirectory + "TTJets_LO_bdt.root").c_str(), "READ");
 
@@ -213,7 +214,7 @@ int shape()
 	        Stack->SetMaximum(stopH[i]->GetMaximum()*1.05);
 	      }
 
-     //TLegend * legenda = gPad->BuildLegend(0.895,0.69,0.65,0.89,"NDC");
+     TLegend * legenda = gPad->BuildLegend(0.895,0.69,0.65,0.89,"NDC");
 
       // Draw in Canvas c2 - Pad1
 
@@ -235,8 +236,8 @@ int shape()
   //delete the vectors
 
   //Save file with all the plots
-  c1->SaveAs("plots/shape.png");
-  c1->SaveAs("plots/shape.C");
+  c1->SaveAs("plots/shape_ngoodtrack.png");
+  c1->SaveAs("plots/shape_ngoodtrack.C");
 
   return 0;
 }

@@ -17,7 +17,7 @@
 
 using std::string;
 
-string fileName =  "NN9003_NCycles300_NNN";
+string fileName =  "NN9003_NCycles300_1stLayer8";
 string directory = "SET9003/";
 string basedirectory = "/home/t3cms/beacms16/CMSSW_8_0_14/src/UserCode/SkeletonAnalysis/macros/bdtFiles/" + fileName + "/";
 
@@ -219,7 +219,7 @@ void YieldMaximize(vector<process> vprocess, variable variable, TCut initial_cut
             errorL[i] = 0;
         }
 
-        if(ypointsL[i] - errorL[i] > ratioL - ratioL_Error)
+        if(ypointsL[i] > ratio)
         	{
         	  BGfL = BG;
         	  SfL = signal;
@@ -284,7 +284,7 @@ void YieldMaximize(vector<process> vprocess, variable variable, TCut initial_cut
             errorR[i] = 0;
         }
 
-        if(ypointsR[i] - errorR[i] > ratioR - ratioR_Error)
+        if(ypointsR[i] > ratioR)
         	{
         	  BGfR = BG;
         	  SfR = signal;
@@ -424,7 +424,7 @@ void EndPrint(ofstream &yieldFile)
   system(("gnome-open " + fileName + ".pdf").c_str());
 }
 
-int maximizeYield(){
+int maximizeFOM(){
   // Open input file(s)
 //  string basedirectory = "~cbeiraod/local-area/Stop4Body/NodeSizeScan/SET9003/";
 
@@ -487,7 +487,7 @@ int maximizeYield(){
   variable JetLepMass("JetLepMass","JetLepMass",20,0,250,"M_{Jet+Lep}");
   variable JetHBPt("$p_{T}$ (JetHB)","JetHBpt",20,0,1000,"p_{T} (JetHB)");
   variable Q80("$Q_{80}$","Q80",20,-2,1,"Q80 [GeV]");
-  variable BDToutput("BDT output", "BDT", 200, 0.5, 1, "BDT output",0,1);
+  variable BDToutput("BDT output", "BDT", 200, -1, 1, "BDT output",0,1);
 
 //  vvariable.push_back(LepPt);
 //  vvariable.push_back(Jet1Pt);
@@ -532,7 +532,7 @@ int maximizeYield(){
 //  Create VCut
 //  vector<TCut> vcut;
 
-  TCut selection = preSel && "BDT > 0.23";
+  TCut selection = preSel && "BDT > 0.98";
   selection.SetName("Selection");
 
   // Maximize
@@ -544,7 +544,7 @@ int maximizeYield(){
   vector<double*> yFOML;
   vector<double*> eFOML;
 
-  ofstream BestCuts;
+/*  ofstream BestCuts;
   StartPrint(vprocess, BestCuts);
   for(int i=0; i<int(vvariable.size()); i++)
     {
@@ -606,7 +606,7 @@ int maximizeYield(){
 //      delete graphR;
 //      delete graphL;
     }
-  EndPrint(BestCuts);// 
+  EndPrint(BestCuts);// */
 
   GetFOM(vprocess, selection);
 

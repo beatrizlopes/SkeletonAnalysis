@@ -54,7 +54,7 @@ int main(int argc, char** argv)
     return 0;
    }
 
-  std::vector<std::string> FileNames {"T2DegStop_300_270_bdt.root","TTJets_LO_bdt.root","Wjets_100to200_bdt.root","Wjets_200to400_bdt.root","Wjets_400to600_bdt.root","Wjets_600toInf_bdt.root"};
+  std::vector<std::string> FileNames {"T2DegStop_300_270.root","TTJets_LO.root","Wjets_100to200.root","Wjets_200to400.root","Wjets_400to600.root","Wjets_600toInf.root"};
 
   for(auto & File : FileNames)
   {
@@ -70,7 +70,8 @@ int main(int argc, char** argv)
 
   float Jet1Pt, LepPt, LepEta, Met, mt, HT20, LepChg, Nbloose30;
   float Njet, DrJetHBLep, JetHBpt;
-  float Jet1Eta;
+//  float Jet1Eta;
+ // float Jet2Pt, Jet3Pt, Jet1CSV, Jet2CSV, Jet3CSV;
 
   reader->AddVariable("Jet1Pt", &Jet1Pt);
   reader->AddVariable("LepPt", &LepPt);
@@ -85,9 +86,16 @@ int main(int argc, char** argv)
   reader->AddVariable("JetHBpt", &JetHBpt);
   reader->AddVariable("DrJetHBLep", &DrJetHBLep);
 
-  reader->AddVariable("Jet1Eta", &Jet1Eta);
+//  reader->AddVariable("Jet1Eta", &Jet1Eta);
 
-  reader->BookMVA("BDT method", "weights/TMVAClassification_BDT.weights.xml");
+  /*reader->AddVariable("Jet2Pt",&Jet2Pt);
+  reader->AddVariable("Jet3Pt",&Jet3Pt);
+
+  reader->AddVariable("Jet1CSV",&Jet1CSV);
+  reader->AddVariable("Jet2CSV",&Jet2CSV);
+  reader->AddVariable("Jet3CSV",&Jet3CSV);
+*/
+  reader->BookMVA("BDT method", "weights/TMVAClassification_MLP_ANN.weights.xml");
 
   for(auto & File : FileNames)
   {
@@ -110,7 +118,15 @@ int main(int argc, char** argv)
     tree->SetBranchAddress("JetHBpt", &JetHBpt);
     tree->SetBranchAddress("DrJetHBLep", &DrJetHBLep);
 
-    tree->SetBranchAddress("Jet1Eta", &Jet1Eta);
+//    tree->SetBranchAddress("Jet1Eta", &Jet1Eta);
+
+//    tree->SetBranchAddress("Jet2Pt", &Jet2Pt);
+//    tree->SetBranchAddress("Jet3Pt", &Jet3Pt);
+
+//    tree->SetBranchAddress("Jet1CSV", &Jet1CSV);
+//    tree->SetBranchAddress("Jet2CSV", &Jet2CSV);
+//    tree->SetBranchAddress("Jet3CSV", &Jet3CSV);
+
 
     TBranch * branch = tree->Branch("BDT",&bdt);
 

@@ -72,26 +72,29 @@ int plotVar()
   variable Q80("Q80","Q80",20,-2,1,"Q80 [GeV]");
   variable JetLepMass("JetLepMass","JetLepMass",20,0,250,"M_{Jet+Lep}");
   variable JetHBPt("JetHBpt","JetHBpt",20,0,500,"p_{T} (JetHB)");
-
+  variable BDToutput("BDT","BDT",20,-1,1,"BDT output",1);
+  
 //  vvariable.push_back(LepPt);
 //  vvariable.push_back(LepEta);
-  vvariable.push_back(Njet);
-  vvariable.push_back(Jet1Pt);
+//  vvariable.push_back(Njet);
+//  vvariable.push_back(Jet1Pt);
 //  vvariable.push_back(Jet2Pt);
 //  vvariable.push_back(Jet1Eta);
-  vvariable.push_back(Met);
-  vvariable.push_back(CosDPhi);
+//  vvariable.push_back(Met);
+//  vvariable.push_back(CosDPhi);
 //  vvariable.push_back(DrJet1Lep);
 //  vvariable.push_back(DrJet2Lep);
-  vvariable.push_back(mt);
-  vvariable.push_back(HT20);
-  vvariable.push_back(Q80);
+//  vvariable.push_back(mt);
+//  vvariable.push_back(HT20);
+//  vvariable.push_back(Q80);
 //  vvariable.push_back(HT30);
 //  vvariable.push_back(JetLepMass);
 //  vvariable.push_back(JetHBPt);
+  vvariable.push_back(BDToutput);
 
   // Open input file(s)
-  string basedirectory = "/lstore/cms/cbeiraod/Stop4Body/LepFix/";
+ // string basedirectory = "/lstore/cms/cbeiraod/Stop4Body/LepFix/";
+  string basedirectory = "/home/t3cms/beacms16/CMSSW_8_0_14/src/UserCode/SkeletonAnalysis/macros/bdtFiles/PCA9003_Jet1EtaD_met280/";
 
   TFile* ttbarFile = new TFile((basedirectory + "TTJets_LO_bdt.root").c_str(), "READ");
 
@@ -109,7 +112,7 @@ int plotVar()
   wjetsTree->Add((basedirectory + "Wjets_600toInf_bdt.root").c_str());
 
   // Data
-  TFile* dataFile = new TFile((basedirectory + "PseudoData_bdt.root").c_str());
+  //TFile* dataFile = new TFile((basedirectory + "PseudoData_bdt.root").c_str());
 
   // Get ttree(s) from input file(s)
   TTree* ttbarTree = static_cast<TTree*>(ttbarFile->Get("bdttree"));
@@ -120,7 +123,7 @@ int plotVar()
   TTree* wjetsTree3 = static_cast<TTree*>(wjetsFile3->Get("bdttree"));
   TTree* wjetsTree4 = static_cast<TTree*>(wjetsFile4->Get("bdttree"));
 
-  TTree* dataTree = static_cast<TTree*>(dataFile->Get("bdttree"));
+  //TTree* dataTree = static_cast<TTree*>(dataFile->Get("bdttree"));
 
   float ttbarXS = 0;
     ttbarTree->SetBranchAddress("XS", &ttbarXS);
@@ -172,10 +175,10 @@ int plotVar()
     vector<TH1D*> ttbarH;
     vector<TH1D*> wjetsH;
     vector<TH1D*> stopH;
-    vector<TH1D*> dataH;
+    //vector<TH1D*> dataH;
     vector<TH1D*> backgroundH;
-    vector<TH1D*> ratioH;
-    vector<TH1D*> emptyH;
+    //vector<TH1D*> ratioH;
+    //vector<TH1D*> emptyH;
 
     double xlow1, xup1, ylow1, yup1;
     double xlow2, xup2, ylow2, yup2;
@@ -188,18 +191,18 @@ int plotVar()
       string sttbarH =  "ttbarH"+std::to_string(i);
       string swjetsH =  "wjetsH"+std::to_string(i);
       string sstopH =  "stopH"+std::to_string(i);
-      string sdataH = "dataH"+std::to_string(i);
+      //string sdataH = "dataH"+std::to_string(i);
       string sbackgroundH = "backgroundH"+std::to_string(i);
-      string sratioH = "ratioH"+std::to_string(i);
+      //string sratioH = "ratioH"+std::to_string(i);
       //string semptyH = "empty"+std::to_string(i);
 
       // Create histogram(s)
       ttbarH.push_back(new TH1D(sttbarH.c_str(), "ttbar", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
       wjetsH.push_back(new TH1D(swjetsH.c_str(), "wjets", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
       stopH.push_back(new TH1D(sstopH.c_str(), "Signal", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
-      dataH.push_back(new TH1D(sdataH.c_str(), "Data", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
+      //dataH.push_back(new TH1D(sdataH.c_str(), "Data", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
       backgroundH.push_back(new TH1D(sbackgroundH.c_str(), "", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
-      ratioH.push_back(new TH1D(sratioH.c_str(), "", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
+      //ratioH.push_back(new TH1D(sratioH.c_str(), "", vvariable[i].GetBins(), vvariable[i].GetXMin(), vvariable[i].GetXMax()));
       //emptyH.push_back(new TH1D(semptyH.c_str(),"",vvariable[i].GetBins(),vvariable[i].GetXMin(), vvariable[i].GetXMax()));
 
       ttbarH[i]->SetFillColor(kGreen-7);
@@ -211,13 +214,13 @@ int plotVar()
       //stopH->SetFillColor(kRed);
       stopH[i]->SetLineColor(kRed);
 
-      dataH[i]->SetLineColor(kBlack);
-      dataH[i]->Sumw2();
+      //dataH[i]->SetLineColor(kBlack);
+      //dataH[i]->Sumw2();
 
-      backgroundH[i]->SetMaximum(ratioH[i]->GetMaximum()*1.5);
-      backgroundH[i]->SetMinimum(ratioH[i]->GetMinimum()*0.5);
+      //backgroundH[i]->SetMaximum(ratioH[i]->GetMaximum()*1.5);
+      //backgroundH[i]->SetMinimum(ratioH[i]->GetMinimum()*0.5);
 
-      TLine *line1 = new TLine(vvariable[i].GetXMin(),1,vvariable[i].GetXMax(),1);
+      //TLine *line1 = new TLine(vvariable[i].GetXMin(),1,vvariable[i].GetXMax(),1);
 
       if(vvariable.size()!=1)
 	      c1->cd(i+1);
@@ -253,7 +256,7 @@ int plotVar()
       TCut electron = "(abs(LepID)==11)&&(LepIso03<0.2)";
       TCut emu = muon||electron;
       TCut ISRjet = "Jet1Pt > 110";
-      TCut met = "Met > 300";
+      TCut met = "Met > 280";
       TCut jetLepMass = "JetLepMass < 100";
       //TCut njets = "Njet > 1";
       TCut lepPt = "LepPt < 17";
@@ -262,14 +265,14 @@ int plotVar()
       //TCut mt = "mt < 70";
       TCut jethbpt = "JetHBpt < 80";
 
-//      TCut selection = emu && ISRjet && met;
-      TCut selection = "1";
+      TCut selection = emu && ISRjet && met;
+      //TCut selection = "1";
 
       // Fill histogram(s) signal & BACKGROUND & DATA
       ttbarTree->Draw((vvariable[i].GetExpression()+">>"+sttbarH).c_str(),"XS*5000/Nevt"*(selection),"goff");
       wjetsTree->Draw((vvariable[i].GetExpression()+">>"+swjetsH).c_str(),"XS*5000/Nevt"*(selection),"goff");
       stopTree->Draw((vvariable[i].GetExpression()+">>"+sstopH).c_str(),"XS*5000/Nevt"*(selection),"goff");  //MULTIPLICAR O SINAL
-      dataTree->Draw((vvariable[i].GetExpression()+">>"+sdataH).c_str(),selection,"goff");
+      //dataTree->Draw((vvariable[i].GetExpression()+">>"+sdataH).c_str(),selection,"goff");
 
       THStack *Stack = new THStack(vvariable[i].GetName().c_str(), (vvariable[i].GetName()+";"+vvariable[i].GetLeg().c_str()+";Evt.").c_str());
       Stack->Add(ttbarH[i]);
@@ -278,8 +281,8 @@ int plotVar()
       gPad->SetLogy(vvariable[i].GetLogy());
 
       backgroundH[i]->Add(ttbarH[i],wjetsH[i]);
-      ratioH[i]->Divide(dataH[i],backgroundH[i]);
-      ratioH[i]->Sumw2();
+      //ratioH[i]->Divide(dataH[i],backgroundH[i]);
+      //ratioH[i]->Sumw2();
 
       for(int j=0; j< backgroundH[i]->GetNbinsX()+1; j++)
       {
@@ -297,9 +300,9 @@ int plotVar()
 
       Stack->Draw("HIST");
       stopH[i]->Draw("HIST same");
-      dataH[i]->Draw("E same");
+      //dataH[i]->Draw("E same");
 
-      if(Stack->GetMaximum() > stopH[i]->GetMaximum() && Stack->GetMaximum() > dataH[i]->GetMaximum())
+      /*if(Stack->GetMaximum() > stopH[i]->GetMaximum() && Stack->GetMaximum() > dataH[i]->GetMaximum())
 	      {
 	        Stack->SetMaximum(Stack->GetMaximum()*1.05);
 	    	}
@@ -310,7 +313,7 @@ int plotVar()
 	    else 
 	      {
 	        Stack->SetMaximum(dataH[i]->GetMaximum()*1.05);
-	      }
+	      }*/
 
       TLegend * legenda = gPad->BuildLegend(0.895,0.69,0.65,0.89,"NDC");
 
@@ -323,9 +326,9 @@ int plotVar()
       backgroundH[i]->Draw();
       gError->Draw("3");
 
-      ratioH[i]->Draw("E same");
+      //ratioH[i]->Draw("E same");
 
-      line1->Draw("same");
+      //line1->Draw("same");
       gError->SetFillColor(kOrange+7);
       gError->SetFillStyle(3144);
       backgroundH[i]->GetYaxis()->SetNdivisions(5);
@@ -356,7 +359,7 @@ int plotVar()
 
       Stack->Draw("HIST goff");
       stopH[i]->Draw("HIST same goff");
-      dataH[i]->Draw("E same goff");
+      //dataH[i]->Draw("E same goff");
 
       TLegend * legenda2 = gPad->BuildLegend(0.895,0.69,0.65,0.89,"NDC");
 
@@ -372,9 +375,9 @@ int plotVar()
       backgroundH[i]->Draw();
       gError->Draw("3");
 
-      ratioH[i]->Draw("E same");
+      //ratioH[i]->Draw("E same");
 
-      line1->Draw("same");
+      //line1->Draw("same");
       gError->SetFillColor(kOrange+7);
       gError->SetFillStyle(3144);
       backgroundH[i]->GetYaxis()->SetTickSize(0.01);
@@ -394,8 +397,8 @@ int plotVar()
   //delete the vectors
 
   //Save file with all the plots
-  c1->SaveAs("plots/plot_noPreSel.png");
-  c1->SaveAs("plots/plot_noPreSel.C");
+  c1->SaveAs("plots/BDT.png");
+  //c1->SaveAs("plots/plot_noPreSel.C");
 
   return 0;
 }

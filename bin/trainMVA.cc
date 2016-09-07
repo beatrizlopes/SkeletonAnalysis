@@ -83,8 +83,17 @@ int main(int argc, char** argv)
   factory->AddVariable("Njet",'F');
   factory->AddVariable("JetHBpt",'F');
   factory->AddVariable("DrJetHBLep",'F');
+//  factory->AddVariable("NbTight30",'F');
 
-  factory->AddVariable("Jet1Eta",'F');
+//  factory->AddVariable("Jet1Eta",'F');
+
+/*  factory->AddVariable("Jet2Pt",'F');
+  factory->AddVariable("Jet3Pt",'F');
+
+  factory->AddVariable("Jet1CSV",'F');
+  factory->AddVariable("Jet2CSV",'F');
+  factory->AddVariable("Jet3CSV",'F');
+*/
 
   TFile *inputsignal = TFile::Open( signalFileName.c_str() );
   TFile *inputbkg= TFile::Open( backgroundFileName.c_str() );
@@ -101,16 +110,16 @@ int main(int argc, char** argv)
   factory->SetSignalWeightExpression("XS");
 
   // Preselection
-  TCut mycuts = "Met > 100";
-  TCut mycutb = "Met > 100";
+  TCut mycuts = "Met > 280";
+  TCut mycutb = "Met > 280";
 
   factory->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:NormMode=EqualNumEvents" );
 
   std::stringstream converter;
   converter << "!H:!V:";
-  converter << "NTrees=" << nTree << ":VarTransform=D:MaxDepth=3:BoostType=AdaBoost:SeparationType=GiniIndex:nCuts=20:PruneMethod=NoPruning:MinNodeSize=1.5%";
+  converter << "VarTransform=Norm:NCycles=300:HiddenLayers=N,N,N:LearningRate=0.09:DecayRate=0.01";;
 
-  factory->BookMethod( TMVA::Types::kBDT, "BDT",
+  factory->BookMethod( TMVA::Types::kMLP, "MLP_ANN",
                        converter.str().c_str());
                        //"!H:!V:NTrees=10:MaxDepth=3:BoostType=AdaBoost:SeparationType=GiniIndex:nCuts=20:PruneMethod=NoPruning" );
 
